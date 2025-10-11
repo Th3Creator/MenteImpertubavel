@@ -1,4 +1,4 @@
-import { Youtube, Mail } from "lucide-react";
+import { Youtube, Mail, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -24,7 +24,17 @@ const Footer = () => {
               <Youtube size={24} />
               <span className="hidden sm:inline">YouTube</span>
             </a>
-            
+
+            <a
+              href="https://www.instagram.com/caveiracadar09/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Instagram size={24} />
+              <span className="hidden sm:inline">Instagram</span>
+            </a>
+
             <a
               href="mailto:camisamatilha@gmail.com"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
