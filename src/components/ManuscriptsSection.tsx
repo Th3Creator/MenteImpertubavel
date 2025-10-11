@@ -11,28 +11,76 @@ interface Manuscript {
 const ManuscriptsSection = () => {
   const [expandedManuscripts, setExpandedManuscripts] = useState<{ [key: string]: boolean }>({});
 
+  const formatContent = (content: string) => {
+    return content
+      .split('\n\n')
+      .map(paragraph => {
+        if (paragraph.trim() === '') return '';
+
+        // Títulos principais (tudo em maiúsculas)
+        if (paragraph === paragraph.toUpperCase() && paragraph.length < 100 && !paragraph.includes('.')) {
+          return `<h3 class="text-xl font-bold text-primary mt-6 mb-4">${paragraph}</h3>`;
+        }
+
+        // Lista com bullets
+        if (paragraph.includes('•')) {
+          const items = paragraph.split('\n').filter(line => line.trim());
+          return `<ul class="list-disc list-inside space-y-2 my-4">${items.map(item => `<li>${item.replace('•', '').trim()}</li>`).join('')}</ul>`;
+        }
+
+        // Parágrafos normais
+        let formattedParagraph = paragraph
+          .replace(/\n/g, '<br/>')
+          .replace(/"([^"]+)"/g, '<strong>"$1"</strong>'); // Citações em negrito
+
+        return `<p class="mb-4">${formattedParagraph}</p>`;
+      })
+      .join('');
+  };
+
   const manuscripts: Manuscript[] = [
     {
-      title: "General e Soldado",
+      title: "O General e o Soldado",
       content: `
 O GENERAL E O SOLDADO
 
-O general e o soldado: todo plano é dividido em duas fases, a fase de planejamento e a fase de execução da operação. Isso pode ser você fazendo uma dieta ou você elaborando um plano para sua empresa; todo plano se divide em duas fases, minimamente. O que é interessante dessa divisão é que ela permite que você se oriente como se portar em cada estágio. Na hora de fazer o planejamento, você é o general. Você deve entender e conhecer a si mesmo para conhecer as suas capacidades na hora de lidar com as propostas que você vai fazer. Por isso escrevi tanto até aqui: para que você não decida sob pressão, para que você entenda o fator tempo, para que você perceba o que é a curva angular. Então, tudo isso o planejador deve ter como mentalidade na hora de construir. O planejador deve estar sóbrio no momento da construção do seu plano; ele não pode estar emocionado, não pode estar apaixonado, não pode estar com raiva, senão ele não vai fazer isso direito, lembra, não decida sobre assédios.
-Já falamos aqui sobre quanto o nosso cérebro custa para pensar e o quanto é mais fácil seguir instintos. Por isso, os instintos predominam com mais facilidade, porque é muito mais barato utilizá-los — instinto, hábito, vícios... Então, quando você planeja você consome muita energia criando métodos, estratégias, ordem de eventos, por isso você é o general, por isso você tem que estar sóbrio. E aí você deve organizar conforme as suas perspectivas. Eu vou falar sobre três fases do planejamento que você tem que ter. E quando você for o operador, o executor, você só faz, você não para para pensar mais. Porque se você parar para pensar, você vai ter dúvidas. Se você tem dúvida, você congela para tentar diluir a dúvida. E no meio de uma operação, você, cansado, criando dúvidas e congelando, vai perder, e isso é muito frequente aqui com os seguidores, as pessoas super estimam os pensamentos e querem o fazer na hora de executar, ai seus planos chafurdam. Portanto, é muito importante que você sendo o general saiba que está fazendo um plano como se fosse para alguém que você ama,” você mesmo”. E o seu soldado saiba que quem fez esse plano é alguém que se importa muito com ele. Esse é o principal viés que deve existir entre a ligação do general para o soldado, porque o entusiasmado, quando faz um plano motivado e cheio de adrenalina, não dá brecha para erro, totalmente estático, não dá brecha para falhas. E aí, quando chega a hora da crise, o soldado questiona a si mesmo: "Cara, esse plano não está dando certo.  Exemplo: “Tive um problema familiar agora, vou ter que abrir mão do plano hoje. Pô, tive uma reunião com meu chefe, eu tive que sair da dieta". E aí você, por não saber planejar, o seu soldado também não vai saber executar. E aí ele desiste do plano.
+O general e o soldado: todo plano é dividido em duas fases, a fase de planejamento e a fase de execução da operação. Isso pode ser você fazendo uma dieta ou elaborando um plano para sua empresa; todo plano se divide em duas fases, minimamente. O que é interessante dessa divisão é que ela permite que você se oriente sobre como se portar em cada estágio.
+
+Na hora de fazer o planejamento, você é o general. Você deve entender e conhecer a si mesmo para conhecer as suas capacidades na hora de lidar com as propostas que você vai fazer. Por isso escrevi tanto até aqui: para que você não decida sob pressão, para que você entenda o fator tempo, para que você perceba o que é a curva angular. Então, tudo isso o planejador deve ter como mentalidade na hora de construir. O planejador deve estar sóbrio no momento da construção do seu plano; ele não pode estar emocionado, não pode estar apaixonado, não pode estar com raiva, senão ele não vai fazer isso direito. Lembra: não decida sob assédio.
+
+Já falamos aqui sobre quanto o nosso cérebro custa para pensar e o quanto é mais fácil seguir instintos. Por isso, os instintos predominam com mais facilidade, porque é muito mais barato utilizá-los — instinto, hábito, vícios... Então, quando você planeja, você consome muita energia criando métodos, estratégias, ordem de eventos. Por isso você é o general, por isso você tem que estar sóbrio. E aí você deve organizar conforme as suas perspectivas.
+
+Eu vou falar sobre três fases do planejamento que você tem que ter. E quando você for o operador, o executor, você só faz, você não para para pensar mais. Porque se você parar para pensar, você vai ter dúvidas. Se você tem dúvida, você congela para tentar diluir a dúvida. E no meio de uma operação, você, cansado, criando dúvidas e congelando, vai perder. Isso é muito frequente aqui com os seguidores: as pessoas superestimam os pensamentos e querem fazê-los na hora de executar, aí seus planos chafurdam.
+
+Portanto, é muito importante que você, sendo o general, saiba que está fazendo um plano como se fosse para alguém que você ama — você mesmo. E o seu soldado saiba que quem fez esse plano é alguém que se importa muito com ele. Esse é o principal viés que deve existir entre a ligação do general para o soldado. Porque o entusiasmado, quando faz um plano motivado e cheio de adrenalina, não dá brecha para erro, totalmente estático, não dá brecha para falhas. E aí, quando chega a hora da crise, o soldado questiona a si mesmo: "Cara, esse plano não está dando certo". Exemplo: "Tive um problema familiar agora, vou ter que abrir mão do plano hoje. Pô, tive uma reunião com meu chefe, tive que sair da dieta". E aí você, por não saber planejar, o seu soldado também não vai saber executar. E aí ele desiste do plano.
 
 E.S.A.O.N (entenda bem esse tópico)
-Perceba que um mau planejador transforma um soldado em um mau executor. Se você fizer um plano muito consciente, naturalmente será um executor muito melhor. Então, sempre que você fizer um plano, lembre-se daquilo que Cristo falou: "Ame ao próximo como a ti mesmo". Isso fará com que você elabore um plano pensando: "Cara, se eu estivesse ali executando esse plano, como eu gostaria que fosse feito?" Isso naturalmente te dará a condição de fazer um plano sensato. Mas você precisa se conhecer; não pode fazer isso com base em vaidade ou orgulho, porque você também será o executor. Claro, quando falamos de uma operação em uma empresa, você está colocando seus funcionários, sua tropa, para serem os executores. Mas é aquilo, se você não trata sua tropa como gostaria de ser tratado, você é um líder fraco. Não há o que se dizer então, é muito importante ter sensatez na hora de fazer a execução. "Ah, Cadar, como faço isso?" Existe um diagrama com um código de letras (que o Major Edson me ensinou)que é muito bom para você se organizar para realizar um plano, para sair de uma crise, como planejar, como decidir para fazer sua curva angular. Vou explicar agora.
-ESAON, se pronuncia "ESA ON", que significa: 
-Estacione, 
-Sente-se, 
-Alimente-se, 
-Oriente-se e  
-Navegue. 
-Essas cinco letras você pode aplicar em qualquer momento de crise, porque percebe que no meio de uma crise você às vezes está cansado, fatigado, com fome, com dor. Então você para em algum ponto, se alimenta bem, descansa, se orienta, reorganiza seu plano e volta a navegar. É assim que o general deve fazer. Claro que em momento de criticos você terá que decidir no "menos pior", mas estamos falando do que pode ser feito com o planejamento. Tirando uma operação em que você tem que decidir em frações de segundos, quase tudo na vida tem um delay para tomar a decisão. É que às vezes você se sabota tanto que chega um momento em que já não dá mais para decidir, ela já decidiu por si mesmo. Mas, no geral, em uma empresa, uma organização de um grupo, você consegue ter um planejamento clamo se não tiver com risco de vida em jogo. E isso, o ESAON, te ajuda a se reconectar com seu porquê. Sem nenhum assédio de fome, cansaço, desgaste, você consegue se concentrar e organizar aquilo que é primordial.  Perceba decidindo com fome, você vai ao mercado com fome, e não faz as compras direito, compreende? Decidindo angustiado, você não vai decidir rápido. Esses são alguns dos fatores que já falamos na parte de assédio que atrapalham a vida de alguém ser um bom general.
-Então pratique ESAON antes de decidir, precisou reestruturar um plano, vai iniciar um plano, pratica o ESAON, descansa bem, tira o dia para descansar, desopilar, ver coisas mais leves que não sobrecarregam, para deixar seu cérebro zerado. Aí você para, senta e só você decide, dentro da sensatez, isso dará um salto na sua zona de planejamento.
-SENSATEZ 
-Então, quando você for ser o general do seu plano, precisa ter a sensatez como prioridade para organizar, de modo que, quando for o soldado do seu plano, você tenha credibilidade em quem planejou para você, na consciência de que quem planejou aquilo pensou como você gostaria, como você saberia lidar com aquilo. Muitas vezes, um mau executor, um mau operador, deriva de um mau planejador. 
-É aquilo "Eu não temerei uma tropa de leões comandados por uma ovelha, mas eu me preocupo com uma tropa de ovelhas comandadas por um leão" — Napoleão Bonaparte. 
+
+Perceba que um mau planejador transforma um soldado em um mau executor. Se você fizer um plano muito consciente, naturalmente será um executor muito melhor. Então, sempre que você fizer um plano, lembre-se daquilo que Cristo falou: "Ame ao próximo como a ti mesmo". Isso fará com que você elabore um plano pensando: "Cara, se eu estivesse ali executando esse plano, como eu gostaria que fosse feito?" Isso naturalmente te dará a condição de fazer um plano sensato.
+
+Mas você precisa se conhecer; não pode fazer isso com base em vaidade ou orgulho, porque você também será o executor. Claro, quando falamos de uma operação em uma empresa, você está colocando seus funcionários, sua tropa, para serem os executores. Mas é aquilo: se você não trata sua tropa como gostaria de ser tratado, você é um líder fraco. Não há o que se dizer então, é muito importante ter sensatez na hora de fazer a execução.
+
+"Ah, Cadar, como faço isso?" Existe um diagrama com um código de letras (que o Major Edson me ensinou) que é muito bom para você se organizar para realizar um plano, para sair de uma crise, como planejar, como decidir para fazer sua curva angular. Vou explicar agora.
+
+ESAON (pronuncia-se "ESA ON"), que significa:
+• Estacione
+• Sente-se
+• Alimente-se
+• Oriente-se
+• Navegue
+
+Essas cinco letras você pode aplicar em qualquer momento de crise, porque percebe que no meio de uma crise você às vezes está cansado, fatigado, com fome, com dor. Então você para em algum ponto, se alimenta bem, descansa, se orienta, reorganiza seu plano e volta a navegar. É assim que o general deve fazer.
+
+Claro que em momentos críticos você terá que decidir no "menos pior", mas estamos falando do que pode ser feito com o planejamento. Tirando uma operação em que você tem que decidir em frações de segundos, quase tudo na vida tem um delay para tomar a decisão. É que às vezes você se sabota tanto que chega um momento em que já não dá mais para decidir — ela já decidiu por si mesma. Mas, no geral, em uma empresa, uma organização de um grupo, você consegue ter um planejamento calmo se não tiver risco de vida em jogo.
+
+E isso, o ESAON, te ajuda a se reconectar com seu porquê. Sem nenhum assédio de fome, cansaço, desgaste, você consegue se concentrar e organizar aquilo que é primordial. Perceba: decidindo com fome, você vai ao mercado com fome e não faz as compras direito, compreende? Decidindo angustiado, você não vai decidir rápido. Esses são alguns dos fatores que já falamos na parte de assédio que atrapalham a vida de alguém para ser um bom general.
+
+Então pratique ESAON antes de decidir. Precisou reestruturar um plano? Vai iniciar um plano? Pratique o ESAON, descanse bem, tire o dia para descansar, desopilar, ver coisas mais leves que não sobrecarreguem, para deixar seu cérebro zerado. Aí você para, senta e só você decide, dentro da sensatez. Isso dará um salto na sua zona de planejamento.
+SENSATEZ
+
+Então, quando você for ser o general do seu plano, precisa ter a sensatez como prioridade para organizar, de modo que, quando for o soldado do seu plano, você tenha credibilidade em quem planejou para você, na consciência de que quem planejou aquilo pensou como você gostaria, como você saberia lidar com aquilo. Muitas vezes, um mau executor, um mau operador, deriva de um mau planejador.
+
+É aquilo: "Eu não temerei uma tropa de leões comandados por uma ovelha, mas eu me preocupo com uma tropa de ovelhas comandadas por um leão" — Napoleão Bonaparte. 
 
 Quem lidera a tropa tem condições de potencializar todos os seus efeitos, bem como tem condições de arruinar todas as suas operações. Um mau planejador, um cara que não se coloca no lugar do seu operador, é um cara fraco, sem experiência, e experiência não é apenas tempo; experiência é a soma de intensidade mais tempo. Uma pessoa que só teve tempo, ela só é velha. Uma pessoa que teve intensidade nesse tempo, por mais que seja curto, ela se torna experiente. O que faz um operador do BOPE-RJ em dois anos se tornar maduro não é o brevê; é estar operando com pessoas de nível muito elevado e sendo testado e testando suas habilidades constantemente. O operador amadurece muito mais rápido no BOPE por sua condição de intensidade. Você vai pegar um operador com pouco tempo de operação e ele consegue ter a experiência de pessoas com muito tempo, porque tiveram baixa intensidade. A intensidade vai definir o nível de experiência. Quando você vai planejar,  mas às vezes você não tem toda a experiência, mas você tem que ter a humildade de deixar brechas para suas falhas, o plano também vai andar bem.
 PLANO COM POUCA EXPERIENCIA 
@@ -356,9 +404,10 @@ proposito, esta no caminho da razão, estando muito além dos efeitos próximos.
           {manuscripts.map((manuscript, idx) => {
             const isExpanded = expandedManuscripts[manuscript.title] || false;
             const shouldTruncate = manuscript.content.length > MAX_CHARS;
-            const displayContent = isExpanded || !shouldTruncate 
-              ? manuscript.content 
+            const rawContent = isExpanded || !shouldTruncate
+              ? manuscript.content
               : manuscript.content.substring(0, MAX_CHARS) + "...";
+            const displayContent = formatContent(rawContent);
 
             return (
               <Card
@@ -373,10 +422,11 @@ proposito, esta no caminho da razão, estando muito além dos efeitos próximos.
                 </CardHeader>
                 
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed text-justify">
-                    {displayContent}
-                  </p>
-                  
+                  <div
+                    className="text-muted-foreground leading-relaxed text-justify prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: displayContent }}
+                  />
+
                   {shouldTruncate && (
                     <Button
                       variant="outline"
