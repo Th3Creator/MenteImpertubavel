@@ -15,7 +15,8 @@ const Navbar = () => {
   };
 
   const navItems = [
-    { label: "Vídeos", id: "videos" },
+    { label: "Playlists", id: "playlists" },
+    { label: "Grupos", id: "grupos" },
     { label: "Manuscritos", id: "manuscritos" },
     { label: "Loja", id: "loja" },
     { label: "Frases", id: "frases" },
