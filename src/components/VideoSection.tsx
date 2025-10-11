@@ -1,142 +1,206 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { useState } from "react";
+import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { ExternalLink } from "lucide-react";
 
-interface Video {
-  id: string;
-  title: string;
-  url: string;
-}
-
-interface Topic {
+interface Playlist {
   name: string;
-  videos: Video[];
+  url: string;
+  rcs: string;
 }
 
 const VideoSection = () => {
-  const [showAllVideos, setShowAllVideos] = useState<{ [key: string]: boolean }>({});
-
-  const topics: Topic[] = [
+  const playlists: Playlist[] = [
     {
-      name: "Fortalecendo o Soldado",
-      videos: [
-        { id: "71", title: "RC - 71", url: "https://www.youtube.com/watch?v=UXGeknGuC3U&t=514s" },
-        { id: "72", title: "RC - 72", url: "https://www.youtube.com/watch?v=A3mWFqDq3g0&t=30s" },
-        { id: "73", title: "RC - 73", url: "https://www.youtube.com/watch?v=22P9s1ntbd4" },
-        { id: "74", title: "RC - 74", url: "https://www.youtube.com/watch?v=VaAap_NYlBM&t=1s" },
-        { id: "75", title: "RC - 75", url: "https://www.youtube.com/watch?v=BNy7RVBYA5U&t=1089s" },
-        { id: "100", title: "RC - 100", url: "https://www.youtube.com/watch?v=6_82e5aoDsM&t=1293s" },
-        { id: "103", title: "RC - 103", url: "https://www.youtube.com/watch?v=ubrYAMiAPnw" },
-        { id: "106", title: "RC - 106", url: "https://www.youtube.com/watch?v=hSa94xoK2Zo&t=191s" },
-        { id: "121", title: "RC - 121", url: "https://www.youtube.com/watch?v=4P9aa6H3a8M&t=4s" },
-      ],
+      name: "Melhorando a relação e a organização da casa",
+      url: "https://www.youtube.com/playlist?list=PLh1gsd1VmCuCkVKwzmq1IRDPikejxL4uG",
+      rcs: "RC's: 12, 19, 84, 87, 91, 122, 135, 139, 143, 173, 174, 204, 212, 214, 215, 224, 239, 249, 261, 262"
+    },
+    {
+      name: "Fortalecendo o soldado",
+      url: "https://www.youtube.com/watch?v=2kA2t_tH0uA&list=PLh1gsd1VmCuCze-v5TfoYlWJqZpAQ77zm&pp=gAQB",
+      rcs: "RC's: 71, 72, 73, 74, 75, 100, 103, 106, 121, 124"
     },
     {
       name: "Procrastinação",
-      videos: [
-        { id: "100", title: "RC - 100", url: "https://www.youtube.com/watch?v=6_82e5aoDsM&t=1293s" },
-        { id: "103", title: "RC - 103", url: "https://www.youtube.com/watch?v=ubrYAMiAPnw" },
-        { id: "71-2", title: "RC - 71", url: "https://www.youtube.com/watch?v=UXGeknGuC3U&t=514s" },
-      ],
+      url: "https://www.youtube.com/watch?v=ubrYAMiAPnw&list=PLh1gsd1VmCuBk-rpuY_UF9y8aV0fGQz1T&pp=gAQB",
+      rcs: "RC's: 100, 103, 71, 72, 73, 75"
     },
     {
-      name: "Coração Partido",
-      videos: [
-        { id: "92", title: "RC - 92", url: "https://www.youtube.com/watch?v=p1P-QiJ6P9k" },
-        { id: "93", title: "RC - 93", url: "https://www.youtube.com/watch?v=f3staR_JgCY&t=1s" },
-        { id: "95", title: "RC - 95", url: "https://www.youtube.com/watch?v=Z8ZZxx3SQK4&t=21s" },
-      ],
+      name: "Coração partido",
+      url: "https://www.youtube.com/watch?v=q0zMlmlcdp0&list=PLh1gsd1VmCuAfOCOELBHBzcDBvEfn1_2h&pp=gAQB",
+      rcs: "RC's: 92, 93, 95, 96, 97, 150, 212"
     },
     {
-      name: "Ansiedade",
-      videos: [
-        { id: "24", title: "RC - 24", url: "https://www.youtube.com/watch?v=oQzEv9exnkw&t=11s" },
-        { id: "72", title: "RC - 72", url: "https://www.youtube.com/watch?v=A3mWFqDq3g0&t=30s" },
-        { id: "74", title: "RC - 74", url: "https://www.youtube.com/watch?v=VaAap_NYlBM" },
-        { id: "74", title: "RC - 74", url: "https://www.youtube.com/watch?v=VaAap_NYlBM" },
-      ],
+      name: "Após desistir",
+      url: "https://www.youtube.com/watch?v=2fiFMeXJYls&list=PLh1gsd1VmCuAV55VlxABYJJskw2dX9tZX&pp=gAQB",
+      rcs: "RC's: 106, 111, 121, 132, 115"
     },
-        {
-      name: "Planejamento",
-      videos: [
-        { id: "79", title: "RC - 79", url: "https://www.youtube.com/watch?v=4KH3XiV-XVg&t=778s" },
-        { id: "131", title: "RC - 131", url: "https://www.youtube.com/watch?v=DhgQCeyBh6M" },
-        { id: "151", title: "RC - 151", url: "https://www.youtube.com/watch?v=y_0Ay0nP02s&t=8s" },
-        { id: "158", title: "RC - 158", url: "https://www.youtube.com/watch?v=8--fNZMOi3c&t=399s" },
-        { id: "171", title: "RC - 171", url: "https://www.youtube.com/watch?v=a_gaGRO_UT0&t=2511s" },
-        { id: "181", title: "RC - 181", url: "https://www.youtube.com/watch?v=AVmwt9oU3C0&t=1478s" },
-      ],
+    {
+      name: "Seja homem",
+      url: "https://www.youtube.com/watch?v=2kA2t_tH0uA&list=PLh1gsd1VmCuD-PYEYnsP3CDFNEpBfbfDo&pp=gAQB",
+      rcs: "RC's: 86, 59, 92, 93, 106, 121, 124"
     },
+    {
+      name: "Construindo identidade",
+      url: "https://www.youtube.com/watch?v=f3staR_JgCY&list=PLh1gsd1VmCuAMGdLZjUpZqRyA3tClzOlE&pp=gAQB",
+      rcs: "RC's: 80, 86, 89, 90, 92, 93"
+    },
+    {
+      name: "Entendendo os pais e traumas da infância",
+      url: "https://www.youtube.com/watch?v=Z_b9FPBvXZ0&list=PLh1gsd1VmCuD5MUtWyMGT4P5QlGIjzC9_&pp=gAQB",
+      rcs: "RC's: 87, 139, 143, 84"
+    },
+    {
+      name: "Família",
+      url: "https://www.youtube.com/watch?v=2YrE0_XIRx8&list=PLh1gsd1VmCuBPxoAdiWPM1c9MXjRt_yqm&pp=gAQB",
+      rcs: "RC's: 91, 135, 143, 176"
+    },
+    {
+      name: "Vícios",
+      url: "https://www.youtube.com/watch?v=48mT4eUiCjQ&list=PLh1gsd1VmCuAHZWfvQWoDbz8SzHzlr8es&pp=gAQB",
+      rcs: "RC's: 54, 120"
+    },
+    {
+      name: "Terreno difícil",
+      url: "https://www.youtube.com/watch?v=O_j7xi3SQXc&list=PLh1gsd1VmCuDw5c8iOE_33p1aXat3Hw5I&pp=gAQB",
+      rcs: "RC's: 17, 90, 108, 117"
+    }
   ];
 
-  const getYoutubeEmbedUrl = (url: string) => {
-    const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/)?.[1];
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
-  };
+  const comboConcurseiro: Playlist[] = [
+    {
+      name: "Combo concurseiro",
+      url: "https://www.youtube.com/watch?v=k0tYTV6Qo4o&list=PLh1gsd1VmCuCO_EwM4N8N4NMrMMZ7ADEx&pp=gAQB",
+      rcs: "Playlist completa"
+    },
+    {
+      name: "Criando desejo",
+      url: "https://www.youtube.com/watch?v=k0tYTV6Qo4o&list=PLh1gsd1VmCuCfsuzsyUI-E5Av4hmSwMBC&pp=gAQB",
+      rcs: "RC's: 03, 13, 17, 22, 23, 38, 188"
+    },
+    {
+      name: "Mente de soldado",
+      url: "https://www.youtube.com/watch?v=p1P-QiJ6P9k&list=PLh1gsd1VmCuBNkPyxjTW-2XHssDjs8iPJ&pp=gAQB",
+      rcs: "RC's: 71, 86, 89, 92"
+    },
+    {
+      name: "Lidando com derrota",
+      url: "https://www.youtube.com/watch?v=5N5fX1vS6B8&list=PLh1gsd1VmCuAmqixLbKHZC7v_-ncgZq27&pp=gAQB",
+      rcs: "RC's: 106, 114, 145, 166, 187"
+    },
+    {
+      name: "Melhorando o rendimento",
+      url: "https://www.youtube.com/watch?v=DhgQCeyBh6M&list=PLh1gsd1VmCuDLbKwtaUdxkjRB4E4mI3TZ&pp=gAQB",
+      rcs: "RC's: 123, 128, 131"
+    },
+    {
+      name: "Lidando com ansiedade",
+      url: "https://www.youtube.com/watch?v=8VwcD_zGRBI&list=PLh1gsd1VmCuAHdtBjgHAKIPZGWLspbWtI&pp=gAQB",
+      rcs: "RC's: 24, 72, 74, 199, 228, 229"
+    }
+  ];
 
-  const toggleShowAll = (topicName: string) => {
-    setShowAllVideos(prev => ({ ...prev, [topicName]: !prev[topicName] }));
+  const getYoutubePlaylistEmbedUrl = (url: string) => {
+    const playlistId = url.match(/[?&]list=([^&]+)/)?.[1];
+    return playlistId ? `https://www.youtube.com/embed/videoseries?list=${playlistId}` : "";
   };
-
-  const INITIAL_VIDEO_COUNT = 3;
 
   return (
-    <section id="videos" className="py-20 bg-background">
+    <section id="playlists" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
-            Vídeos por Tópico
+            Playlists
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore conteúdos organizados por temas essenciais do desenvolvimento pessoal
           </p>
         </div>
 
-        <div className="space-y-12">
-          {topics.map((topic, idx) => {
-            const shouldShowAll = showAllVideos[topic.name] || false;
-            const displayedVideos = shouldShowAll ? topic.videos : topic.videos.slice(0, INITIAL_VIDEO_COUNT);
-            const hasMoreVideos = topic.videos.length > INITIAL_VIDEO_COUNT;
-
-            return (
-              <div key={topic.name} className="animate-fade-in" style={{ animationDelay: `${idx * 100}ms` }}>
-                <h3 className="text-2xl md:text-3xl font-heading font-bold text-primary mb-6">
-                  {topic.name}
-                </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {displayedVideos.map((video) => (
-                    <Card key={`${topic.name}-${video.id}`} className="group hover:scale-105 transition-all duration-300 hover:border-primary overflow-hidden bg-card">
-                      <div className="relative aspect-video overflow-hidden">
-                        <iframe
-                          src={getYoutubeEmbedUrl(video.url)}
-                          title={video.title}
-                          className="w-full h-full"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                      
-                      <CardHeader>
-                        <CardTitle className="text-xl font-bold">{video.title}</CardTitle>
-                      </CardHeader>
-                    </Card>
-                  ))}
+        {/* Playlists Gerais */}
+        <div className="mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {playlists.map((playlist, idx) => (
+              <Card
+                key={idx}
+                className="group hover:scale-105 transition-all duration-300 hover:border-primary overflow-hidden bg-card animate-fade-in"
+                style={{ animationDelay: `${idx * 100}ms` }}
+              >
+                <div className="relative aspect-video overflow-hidden">
+                  <iframe
+                    src={getYoutubePlaylistEmbedUrl(playlist.url)}
+                    title={playlist.name}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
 
-                {hasMoreVideos && (
-                  <div className="flex justify-center mt-6">
-                    <Button
-                      variant="outline"
-                      onClick={() => toggleShowAll(topic.name)}
-                    >
-                      {shouldShowAll ? "Ver menos" : "Ver mais"}
-                    </Button>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold">{playlist.name}</CardTitle>
+                </CardHeader>
+
+                <CardFooter className="flex flex-col items-start gap-2">
+                  <p className="text-sm text-muted-foreground">{playlist.rcs}</p>
+                  <a
+                    href={playlist.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                  >
+                    Ver playlist completa <ExternalLink size={16} />
+                  </a>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Combo Concurseiro */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">
+              Combo Concurseiro
+            </h3>
+            <p className="text-base text-muted-foreground max-w-xl mx-auto">
+              Playlists especialmente selecionadas para quem está na jornada dos concursos
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {comboConcurseiro.map((playlist, idx) => (
+              <Card
+                key={idx}
+                className="group hover:scale-105 transition-all duration-300 hover:border-primary overflow-hidden bg-card animate-fade-in"
+                style={{ animationDelay: `${idx * 100}ms` }}
+              >
+                <div className="relative aspect-video overflow-hidden">
+                  <iframe
+                    src={getYoutubePlaylistEmbedUrl(playlist.url)}
+                    title={playlist.name}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+
+                <CardHeader>
+                  <CardTitle className="text-xl font-bold">{playlist.name}</CardTitle>
+                </CardHeader>
+
+                <CardFooter className="flex flex-col items-start gap-2">
+                  <p className="text-sm text-muted-foreground">{playlist.rcs}</p>
+                  <a
+                    href={playlist.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                  >
+                    Ver playlist completa <ExternalLink size={16} />
+                  </a>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>
