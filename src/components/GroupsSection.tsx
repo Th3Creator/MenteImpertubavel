@@ -10,7 +10,7 @@ const GroupsSection = () => {
   const groups = [
     {
       id: "desafio-40-dias",
-      name: "Desafio 40 dias",
+      name: "Desafio dos 40 dias",
       image: desafio40Dias
     },
     {

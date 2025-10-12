@@ -42,7 +42,6 @@ const ManuscriptsSection = () => {
     {
       title: "O General e o Soldado",
       content: `
-O GENERAL E O SOLDADO
 
 O general e o soldado: todo plano é dividido em duas fases, a fase de planejamento e a fase de execução da operação. Isso pode ser você fazendo uma dieta ou elaborando um plano para sua empresa; todo plano se divide em duas fases, minimamente. O que é interessante dessa divisão é que ela permite que você se oriente sobre como se portar em cada estágio.
 
